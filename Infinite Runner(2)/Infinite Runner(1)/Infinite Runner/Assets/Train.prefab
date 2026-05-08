@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7062803267112403861}
   - component: {fileID: 2709019940327607279}
   - component: {fileID: 2493477909788658591}
-  - component: {fileID: 1150533509038065437}
   m_Layer: 0
   m_Name: Train
   m_TagString: Untagged
@@ -113,16 +112,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1150533509038065437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2365291094273723662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7bbaf71a49794bba9e56bc1c70b727c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Obstacle
-  kind: 0
