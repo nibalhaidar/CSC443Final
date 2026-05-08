@@ -10,6 +10,7 @@ public enum LaneMask
     All    = Left | Middle | Right,
 }
 
+
 public static class LaneMaskExtensions
 {
     public static bool ConnectsTo(this LaneMask exit, LaneMask nextEntry) => (exit & nextEntry) != 0;
@@ -18,12 +19,14 @@ public static class LaneMaskExtensions
 public class Chunk : MonoBehaviour
 {
     [SerializeField] private float length = 30f;
+    
 
     [Tooltip("Lanes that are open at the START of this chunk. Player must enter via one of these.")]
     [SerializeField] private LaneMask entry = LaneMask.All;
 
     [Tooltip("Lanes that are open at the END of this chunk. Next chunk's Entry must overlap.")]
     [SerializeField] private LaneMask exit = LaneMask.All;
+    
 
     public float Length => length;
     public LaneMask Entry => entry;

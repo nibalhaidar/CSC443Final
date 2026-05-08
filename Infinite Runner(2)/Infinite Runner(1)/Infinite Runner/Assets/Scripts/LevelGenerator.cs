@@ -12,6 +12,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float spawnAhead = 80f;
     [SerializeField] private float recycleBehind = 20f;
 
+    [Header("Difficulty")]
+    [SerializeField] private float baseSpawnAhead = 80f;
+    [SerializeField] private float maxSpawnAhead = 160f;
+    [SerializeField] private float spawnRampDistance = 500f;
+
     private Chunk[] _prefabTemplates;
     private Chunk _startChunkTemplate;
     private readonly Dictionary<Chunk, ObjectPool<Chunk>> _pools = new();
@@ -20,7 +25,7 @@ public class LevelGenerator : MonoBehaviour
     private readonly List<Chunk> _candidateBuffer = new();
 
     private float _spawnZ;
-    private LaneMask _currentExit = LaneMask.All; // first chunk has no upstream constraint
+    private LaneMask _currentExit = LaneMask.All;
 
     void Awake()
     {
@@ -31,14 +36,14 @@ public class LevelGenerator : MonoBehaviour
             _prefabTemplates[i] = template;
             _pools[template] = new ObjectPool<Chunk>(template, transform, chunkPoolSize);
         }
-         // Register the start chunk's pool separately
-    if (startChunkPrefab != null)
-    {
-        Chunk startTemplate = startChunkPrefab.GetComponent<Chunk>();
-        if (!_pools.ContainsKey(startTemplate))
-            _pools[startTemplate] = new ObjectPool<Chunk>(startTemplate, transform, 1);
-        _startChunkTemplate = startTemplate;
-    }
+
+        if (startChunkPrefab != null)
+        {
+            Chunk startTemplate = startChunkPrefab.GetComponent<Chunk>();
+            if (!_pools.ContainsKey(startTemplate))
+                _pools[startTemplate] = new ObjectPool<Chunk>(startTemplate, transform, 1);
+            _startChunkTemplate = startTemplate;
+        }
     }
 
     void Start()
@@ -50,16 +55,17 @@ public class LevelGenerator : MonoBehaviour
     {
         if (GameManager.Instance.IsGameOver) return;
 
-        // Treadmill: slide every active chunk backward by speed * dt.
+        // Ramp spawnAhead based on distance
+        float t = Mathf.Clamp01(GameManager.Instance.Distance / spawnRampDistance);
+        spawnAhead = Mathf.Lerp(baseSpawnAhead, maxSpawnAhead, t);
+
         float scroll = GameManager.Instance.ScrollSpeed * Time.deltaTime;
         for (int i = 0; i < _activeChunks.Count; i++)
             _activeChunks[i].transform.position += Vector3.back * scroll;
         _spawnZ -= scroll;
 
-        // Spawn ahead until we've filled the visible distance.
         while (_spawnZ < spawnAhead) SpawnNextChunk();
 
-        // Recycle anything that has fallen far behind the camera.
         for (int i = _activeChunks.Count - 1; i >= 0; i--)
         {
             Chunk c = _activeChunks[i];
@@ -68,39 +74,38 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-   private void SpawnNextChunk()
-{
-    Chunk prefab;
-
-    if (_startChunkTemplate != null)
+    private void SpawnNextChunk()
     {
-        prefab = _startChunkTemplate;
-        _startChunkTemplate = null; // consume it — only fires once
+        Chunk prefab;
+
+        if (_startChunkTemplate != null)
+        {
+            prefab = _startChunkTemplate;
+            _startChunkTemplate = null;
+        }
+        else
+        {
+            prefab = PickNextChunk(_currentExit);
+        }
+
+        if (prefab == null)
+        {
+            Debug.LogError("LevelGenerator: no chunk in the prefab list connects to the current exit state. " +
+                           "Add a chunk whose Entry includes one of the open lanes.");
+            return;
+        }
+
+        Chunk chunk = _pools[prefab].Get(transform);
+        chunk.transform.SetPositionAndRotation(
+            new Vector3(0f, 0f, _spawnZ + chunk.Length * 0.5f),
+            Quaternion.identity);
+
+        _activeChunks.Add(chunk);
+        _instanceToPrefab[chunk] = prefab;
+        _spawnZ += chunk.Length;
+        _currentExit = chunk.Exit;
     }
-    else
-    {
-        prefab = PickNextChunk(_currentExit);
-    }
 
-    if (prefab == null)
-    {
-        Debug.LogError("LevelGenerator: no chunk in the prefab list connects to the current exit state. " +
-                       "Add a chunk whose Entry includes one of the open lanes.");
-        return;
-    }
-
-    Chunk chunk = _pools[prefab].Get(transform);
-    chunk.transform.SetPositionAndRotation(
-        new Vector3(0f, 0f, _spawnZ + chunk.Length * 0.5f),
-        Quaternion.identity);
-
-    _activeChunks.Add(chunk);
-    _instanceToPrefab[chunk] = prefab;
-    _spawnZ += chunk.Length;
-    _currentExit = chunk.Exit;
-}
-
-    // Socket matching: keep prefabs whose Entry shares at least one open lane with requiredOpen.
     private Chunk PickNextChunk(LaneMask requiredOpen)
     {
         _candidateBuffer.Clear();

@@ -7,4 +7,5 @@ public class GameConfig : ScriptableObject
     public float startSpeed = 8f;
     public float maxSpeed = 20f;
     public float speedIncreaseRate = 0.1f;
+   
 }
