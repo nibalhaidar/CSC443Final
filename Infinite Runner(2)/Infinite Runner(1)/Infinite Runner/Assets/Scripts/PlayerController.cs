@@ -12,14 +12,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpVelocity = 8f;
     [SerializeField] private float gravity = -25f;
 
+    [Header("Ground Check")]
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float groundCheckDistance = 1.1f;
+
     private int _laneIndex;
     private float _y;
     private float _yVel;
     private Vector2 _prevMove;
+    private bool _isGrounded;
 
     void Awake()
     {
-        // We drive position directly, so any rigidbody on this object must be kinematic.
         if (TryGetComponent(out Rigidbody rb))
         {
             rb.isKinematic = true;
@@ -29,10 +33,12 @@ public class PlayerController : MonoBehaviour
 
     public void Move(InputAction.CallbackContext ctx)
     {
+        if (GameManager.Instance.IsGameOver) return;
+
         Vector2 v = ctx.ReadValue<Vector2>();
         if (v.x > 0.5f && _prevMove.x <= 0.5f) ChangeLane(+1);
         else if (v.x < -0.5f && _prevMove.x >= -0.5f) ChangeLane(-1);
-        if (v.y > 0.5f && _prevMove.y <= 0.5f && _y <= 0f) _yVel = jumpVelocity;
+        if (v.y > 0.5f && _prevMove.y <= 0.5f && _isGrounded) _yVel = jumpVelocity;
         _prevMove = v;
     }
 
@@ -44,8 +50,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.IsGameOver) return;
+
+        // Ground check — floor (y <= 0) or walkable surface below
+        bool onFloor = _y <= 0f && _yVel <= 0f;
+        bool onSurface = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistance, groundLayer);
+        _isGrounded = onFloor || onSurface;
+
+        // Gravity
         _yVel += gravity * Time.deltaTime;
         _y += _yVel * Time.deltaTime;
+
+        // Land
+        if (_isGrounded && _yVel <= 0f)
+        {
+            _y = onSurface ? hit.point.y : 0f;
+            _yVel = 0f;
+        }
+
+        // Clamp below floor
         if (_y < 0f) { _y = 0f; _yVel = 0f; }
 
         Vector3 pos = transform.position;

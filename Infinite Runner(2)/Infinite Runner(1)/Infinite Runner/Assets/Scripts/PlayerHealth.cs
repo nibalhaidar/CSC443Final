@@ -3,16 +3,13 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Obstacle"))
-        {
-            Die();
-        }
-    }
+{
+    Debug.Log($"Hit: {other.gameObject.name} | Tag: {other.tag} | Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
 
-    private void Die()
+    if (other.CompareTag("Obstacle") &&
+        other.gameObject.layer != LayerMask.NameToLayer("Walkable"))
     {
-        Debug.Log("Player died!");
-        // your death logic here (reload scene, show game over UI, etc.)
+        GameManager.Instance.TriggerGameOver();
     }
+}
 }
