@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameOverUI : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
 
     void Awake()
     {
@@ -13,10 +16,11 @@ public class GameOverUI : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.IsGameOver && !gameOverPanel.activeSelf)
+        {
             gameOverPanel.SetActive(true);
-
-       // if (GameManager.Instance.IsGameOver && Input.GetKeyDown(KeyCode.R))
-          //  Restart();
+            finalScoreText.text = $"Score: {Mathf.FloorToInt(GameManager.Instance.Distance)}m";
+            highScoreText.text = $"Best: {Mathf.FloorToInt(GameManager.Instance.HighScore)}m";
+        }
     }
 
     public void Restart()

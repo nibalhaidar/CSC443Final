@@ -18,7 +18,7 @@ public class PauseUI : MonoBehaviour
         _isPaused = pause;
         pausePanel.SetActive(_isPaused);
         Time.timeScale = _isPaused ? 0f : 1f;
-        pauseButtonText.text = _isPaused ? "I>" : "||";
+        pauseButtonText.text = _isPaused ? "|>" : "||";
     }
 
     public void TogglePause() => SetPause(!_isPaused);
