@@ -38,7 +38,10 @@ public class PlayerController : MonoBehaviour
         Vector2 v = ctx.ReadValue<Vector2>();
         if (v.x > 0.5f && _prevMove.x <= 0.5f) ChangeLane(+1);
         else if (v.x < -0.5f && _prevMove.x >= -0.5f) ChangeLane(-1);
-        if (v.y > 0.5f && _prevMove.y <= 0.5f && _isGrounded) _yVel = jumpVelocity;
+        if (v.y > 0.5f && _prevMove.y <= 0.5f && _isGrounded) {
+            _yVel = jumpVelocity;
+            AudioManager.Instance.PlayJump(); 
+        }
         _prevMove = v;
     }
 

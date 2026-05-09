@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         if (IsGameOver) return;
         IsGameOver = true;
         ScrollSpeed = 0f;
+        AudioManager.Instance.PlayGameOver(); // this stops music AND plays game over sound
 
         if (Distance > HighScore)
         {

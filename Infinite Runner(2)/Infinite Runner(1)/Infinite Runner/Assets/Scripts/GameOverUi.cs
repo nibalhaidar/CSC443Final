@@ -25,6 +25,7 @@ public class GameOverUI : MonoBehaviour
 
     public void Restart()
     {
+        AudioManager.Instance.RestartMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

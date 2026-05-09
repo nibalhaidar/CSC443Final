@@ -19,6 +19,11 @@ public class PauseUI : MonoBehaviour
         pausePanel.SetActive(_isPaused);
         Time.timeScale = _isPaused ? 0f : 1f;
         pauseButtonText.text = _isPaused ? "|>" : "||";
+
+    if (_isPaused)
+        AudioManager.Instance.PauseMusic();
+    else
+        AudioManager.Instance.ResumeMusic();
     }
 
     public void TogglePause() => SetPause(!_isPaused);
