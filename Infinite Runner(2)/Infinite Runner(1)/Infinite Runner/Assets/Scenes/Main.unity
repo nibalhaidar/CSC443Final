@@ -2226,7 +2226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   backgroundMusic: {fileID: 8300000, guid: 98e55fe9237850e4e97297d297a9c932, type: 3}
-  coinSound: {fileID: 8300000, guid: ff529eadf5de5934faa7bfe46791cc27, type: 3}
+  coinSound: {fileID: 8300000, guid: 26f34b19c215ffb459eda5aba07971f2, type: 3}
   jumpSound: {fileID: 8300000, guid: a5bb2785a9ad2294f9ab8c078838c949, type: 3}
   gameOverSound: {fileID: 8300000, guid: 92466d90d2e9e124c9accdc98961b664, type: 3}
 --- !u!4 &872332142
