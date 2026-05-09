@@ -1,24 +1,35 @@
-Subway Runner
-  Full Name: Nibal Haidar
+Running Mania
+
+Full Name: Nibal Haidar
 Student ID: 20231367
 
 Extensions Implemented
-Main menu scene with a Start button and a Quit button
-Pause Menu — A pause button on screen freezes the game and shows Resume / Quit buttons. Music pauses and resumes accordingly.
-Difficulty Ramp — Speed increases at distance milestones (200m, 400m, 800m). More chunks also spawn ahead as distance grows, increasing obstacle density over time.
-High score saved between runs
-One new custom chunk prefab
-Particle effect on coin pickup or on death
-
-
-Controls
-InputActionA / LeftSwitch lane leftD / RightSwitch lane rightW / UpJumpPause Button (UI)Pause / Resume
-
-Features
-
 Main menu scene with Start and Quit buttons
-High score saved between runs using PlayerPrefs
-Coin collection with HUD score display and particle effect on pickup
-Pause menu with Resume and Quit
-Distance-based difficulty ramp
-Custom chunk prefab designed with unique obstacle layout
+Pause menu with Resume and Quit functionality
+Distance-based difficulty ramp system
+Persistent high score saving using PlayerPrefs
+Custom chunk prefab with a unique obstacle layout
+Particle effects for coin collection and player death
+Controls
+Key	Action
+A / Left Arrow	Switch lane left
+D / Right Arrow	Switch lane right
+W / Up Arrow	Jump
+Pause Button (UI)	Pause / Resume game
+Features
+Main Menu
+
+Pause System
+
+
+Difficulty Ramp
+
+
+Coin Collection
+
+Players can collect coins during gameplay:
+
+Custom Chunk Prefab
+
+Particle systems were added to improve feedback and polish:
+
