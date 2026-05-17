@@ -1,4 +1,5 @@
 Running Mania
+https://nduedulb-my.sharepoint.com/:v:/g/personal/nahaidar_ndu_edu_lb/IQAvXtN4G7BJT7V4LhJaEoA7AY_VbeBjYeoJfYiQrGYm05I?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=Qq8tFf
 
 Full Name: Nibal Haidar
 Student ID: 20231367
@@ -12,9 +13,9 @@ Custom chunk prefab with a unique obstacle layout
 Particle effects for coin collection and player death
 Controls
 Key	Action
-A / Left Arrow	Switch lane left
-D / Right Arrow	Switch lane right
-W / Up Arrow	Jump
+A 	Switch lane left
+D 	Switch lane right
+W 	Jump
 Pause Button (UI)	Pause / Resume game
 Features
 Main Menu
