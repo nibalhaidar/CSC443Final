@@ -28,7 +28,6 @@ Difficulty Ramp
 
 Coin Collection
 
-Players can collect coins during gameplay:
 
 Custom Chunk Prefab
 
